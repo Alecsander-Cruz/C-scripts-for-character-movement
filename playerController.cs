@@ -15,6 +15,7 @@ public class playerController : MonoBehaviour
     [Header("Sprite Color")]
     public Color            hitColor;
     public Color            noHitColor;
+    public Color            deadColor;
     
     [Header("Targets")]
     public GameObject       hitBoxPrefab;
@@ -76,7 +77,10 @@ public class playerController : MonoBehaviour
 
         if(playerLife <= 0)
         {
-           restartGame(); 
+            playerRenderer.color = deadColor;
+            player2D.velocity = new Vector2(0, speedY);
+            this.gameObject.layer = LayerMask.NameToLayer("Invincible");
+            restartGame(); 
         }
 
     }
@@ -147,11 +151,12 @@ public class playerController : MonoBehaviour
         }
         this.gameObject.layer = LayerMask.NameToLayer("Player");
         playerRenderer.color = Color.white;
+
         
     }
 
     void restartGame(){
-        playerTransform.gameObject.SetActive(false);
+        //playerTransform.gameObject.SetActive(false);
         _gameController.painelGameOver.SetActive(true);
         if (_gameController.painelGameOver == true && Input.GetKeyDown(KeyCode.Space))
         {
